@@ -1,5 +1,8 @@
 FROM ghcr.io/foundry-rs/foundry:latest AS builder
 
+# Ensure we have root privileges for package installation
+USER root
+
 LABEL org.opencontainers.image.source="https://github.com/storm-labs/dev-env"
 
 # --------------------------
