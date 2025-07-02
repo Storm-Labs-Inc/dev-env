@@ -1,0 +1,3 @@
+import{j as e}from"./index-D5UbER3f.js";import{u as r}from"./index-CZxYc6i7.js";const i=void 0;function o(t){const n={br:"br",code:"code",em:"em",p:"p",...r(),...t.components};return e.jsxs(n.p,{children:[e.jsx(n.code,{children:"--rpc-url"})," ",e.jsx(n.em,{children:"url"}),e.jsx(n.br,{}),`
+`,"    The RPC endpoint. Accepts a URL or an existing alias in the [rpc_endpoints] table, like ",e.jsx(n.code,{children:"mainnet"}),`.
+    Environment: `,e.jsx(n.code,{children:"ETH_RPC_URL"})]})}function d(t={}){const{wrapper:n}={...r(),...t.components};return n?e.jsx(n,{...t,children:e.jsx(o,{...t})}):o(t)}export{d as default,i as frontmatter};

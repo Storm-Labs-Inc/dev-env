@@ -1,0 +1,5 @@
+import{j as e}from"./index-D5UbER3f.js";import{u as t}from"./index-CZxYc6i7.js";const s=void 0;function o(r){const n={br:"br",code:"code",em:"em",p:"p",...t(),...r.components};return e.jsxs(e.Fragment,{children:[e.jsxs(n.p,{children:[e.jsx(n.code,{children:"--verifier"})," ",e.jsx(n.em,{children:"name"}),e.jsx(n.br,{}),`
+`,"    The verification provider. Available options: ",e.jsx(n.code,{children:"etherscan"}),", ",e.jsx(n.code,{children:"sourcify"})," & ",e.jsx(n.code,{children:"blockscout"}),". Default: ",e.jsx(n.code,{children:"etherscan"}),'. Note: make sure you add "/api?" to the end of the Blockscout homepage explorer URL.']}),`
+`,e.jsxs(n.p,{children:[e.jsx(n.code,{children:"--verifier-url"})," ",e.jsx(n.em,{children:"url"}),e.jsx(n.br,{}),`
+`,"    The optional verifier url for submitting the verification request.",e.jsx(n.br,{}),`
+`,"    Environment: ",e.jsx(n.code,{children:"VERIFIER_URL"})]})]})}function d(r={}){const{wrapper:n}={...t(),...r.components};return n?e.jsx(n,{...r,children:e.jsx(o,{...r})}):o(r)}export{d as default,s as frontmatter};

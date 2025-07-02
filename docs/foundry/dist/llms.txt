@@ -1,0 +1,7 @@
+# foundry - Ethereum Development Framework
+
+## Docs
+
+- [Prompting](/introduction/prompting): One of the fastest ways to build smart contracts is by using AI to assist with writing boilerplate code, implementing complex testing patterns, and following security best practices. When building, iterating on, or debugging smart contracts using AI tools and Large Language Models (LLMs), a well-structured and extensive prompt helps provide the model with clearer guidelines and examples that can dramatically improve output quality.
+- [Invariant Testing](/forge/advanced-testing/invariant-testing): Invariant testing allows for a set of invariant expressions to be tested against randomized sequences of pre-defined function calls from pre-defined contracts. After each function call is performed, all defined invariants are asserted.
+- [Gas Section Snapshots](/forge/gas-tracking/gas-section-snapshots): Forge can capture gas snapshots over arbitrary sections inside of your test functions. This can be useful to get a granular measurement of how much gas your logic is consuming as both external calls and internal gas usage are measured.

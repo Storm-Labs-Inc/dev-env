@@ -1,0 +1,31 @@
+import{j as s}from"./index-D5UbER3f.js";import a from"./common-options-OsAHhg-o.js";import{u as r}from"./index-CZxYc6i7.js";const t=void 0;function n(i){const e={a:"a",code:"code",div:"div",em:"em",h2:"h2",h3:"h3",li:"li",ol:"ol",p:"p",pre:"pre",span:"span",...r(),...i.components};return s.jsxs(s.Fragment,{children:[s.jsxs(e.h2,{id:"cast-sig",children:["cast sig",s.jsx(e.a,{"aria-hidden":"true",tabIndex:"-1",href:"#cast-sig",children:s.jsx(e.div,{"data-autolink-icon":!0})})]}),`
+`,s.jsxs(e.h3,{id:"name",children:["NAME",s.jsx(e.a,{"aria-hidden":"true",tabIndex:"-1",href:"#name",children:s.jsx(e.div,{"data-autolink-icon":!0})})]}),`
+`,s.jsx(e.p,{children:"cast-sig - Get the selector for a function."}),`
+`,s.jsxs(e.h3,{id:"synopsis",children:["SYNOPSIS",s.jsx(e.a,{"aria-hidden":"true",tabIndex:"-1",href:"#synopsis",children:s.jsx(e.div,{"data-autolink-icon":!0})})]}),`
+`,s.jsxs(e.p,{children:[s.jsx(e.code,{children:"cast sig"})," [",s.jsx(e.em,{children:"options"}),"] ",s.jsx(e.em,{children:"sig"})]}),`
+`,s.jsxs(e.h3,{id:"description",children:["DESCRIPTION",s.jsx(e.a,{"aria-hidden":"true",tabIndex:"-1",href:"#description",children:s.jsx(e.div,{"data-autolink-icon":!0})})]}),`
+`,s.jsx(e.p,{children:"Get the selector for a function."}),`
+`,s.jsxs(e.p,{children:["The signature (",s.jsx(e.em,{children:"sig"}),") is a fragment in the form ",s.jsx(e.code,{children:"<function name>(<types...>)"}),"."]}),`
+`,s.jsxs(e.h3,{id:"options",children:["OPTIONS",s.jsx(e.a,{"aria-hidden":"true",tabIndex:"-1",href:"#options",children:s.jsx(e.div,{"data-autolink-icon":!0})})]}),`
+`,s.jsx(a,{}),`
+`,s.jsxs(e.h3,{id:"examples",children:["EXAMPLES",s.jsx(e.a,{"aria-hidden":"true",tabIndex:"-1",href:"#examples",children:s.jsx(e.div,{"data-autolink-icon":!0})})]}),`
+`,s.jsxs(e.ol,{children:[`
+`,s.jsxs(e.li,{children:[`
+`,s.jsxs(e.p,{children:["Get the selector for the function ",s.jsx(e.code,{children:"transfer(address,uint256)"}),":"]}),`
+`,s.jsx(s.Fragment,{children:s.jsx(e.pre,{className:"shiki shiki-themes github-light github-dark-dimmed",style:{backgroundColor:"#fff","--shiki-dark-bg":"#22272e",color:"#24292e","--shiki-dark":"#adbac7"},tabIndex:"0",children:s.jsx(e.code,{children:s.jsxs(e.span,{className:"line",children:[s.jsx(e.span,{style:{color:"#6F42C1","--shiki-dark":"#F69D50"},children:"cast"}),s.jsx(e.span,{style:{color:"#032F62","--shiki-dark":"#96D0FF"},children:" sig"}),s.jsx(e.span,{style:{color:"#032F62","--shiki-dark":"#96D0FF"},children:' "transfer(address,uint256)"'})]})})})}),`
+`]}),`
+`,s.jsxs(e.li,{children:[`
+`,s.jsxs(e.p,{children:["Get the selector for a function that expects a ",s.jsx(e.code,{children:"struct"}),":"]}),`
+`,s.jsx(s.Fragment,{children:s.jsx(e.pre,{className:"shiki shiki-themes github-light github-dark-dimmed",style:{backgroundColor:"#fff","--shiki-dark-bg":"#22272e",color:"#24292e","--shiki-dark":"#adbac7"},tabIndex:"0",children:s.jsxs(e.code,{children:[s.jsxs(e.span,{className:"line",children:[s.jsx(e.span,{style:{color:"#D73A49","--shiki-dark":"#F47067"},children:"contract"}),s.jsx(e.span,{style:{color:"#6F42C1","--shiki-dark":"#F69D50"},children:" Test"}),s.jsx(e.span,{style:{color:"#24292E","--shiki-dark":"#ADBAC7"},children:" {"})]}),`
+`,s.jsxs(e.span,{className:"line",children:[s.jsx(e.span,{style:{color:"#D73A49","--shiki-dark":"#F47067"},children:"    struct"}),s.jsx(e.span,{style:{color:"#6F42C1","--shiki-dark":"#F69D50"},children:" MyStruct"}),s.jsx(e.span,{style:{color:"#24292E","--shiki-dark":"#ADBAC7"},children:" {"})]}),`
+`,s.jsxs(e.span,{className:"line",children:[s.jsx(e.span,{style:{color:"#005CC5","--shiki-dark":"#6CB6FF"},children:"        address"}),s.jsx(e.span,{style:{color:"#24292E","--shiki-dark":"#ADBAC7"},children:" addr;"})]}),`
+`,s.jsxs(e.span,{className:"line",children:[s.jsx(e.span,{style:{color:"#005CC5","--shiki-dark":"#6CB6FF"},children:"        uint256"}),s.jsx(e.span,{style:{color:"#24292E","--shiki-dark":"#ADBAC7"},children:" amount;"})]}),`
+`,s.jsx(e.span,{className:"line",children:s.jsx(e.span,{style:{color:"#24292E","--shiki-dark":"#ADBAC7"},children:"    }"})}),`
+`,s.jsxs(e.span,{className:"line",children:[s.jsx(e.span,{style:{color:"#D73A49","--shiki-dark":"#F47067"},children:"    function"}),s.jsx(e.span,{style:{color:"#6F42C1","--shiki-dark":"#DCBDFB"},children:" myfunction"}),s.jsx(e.span,{style:{color:"#24292E","--shiki-dark":"#ADBAC7"},children:"("}),s.jsx(e.span,{style:{color:"#D73A49","--shiki-dark":"#F47067"},children:"MyStruct"}),s.jsx(e.span,{style:{color:"#D73A49","--shiki-dark":"#F47067"},children:" memory"}),s.jsx(e.span,{style:{color:"#E36209","--shiki-dark":"#F69D50"},children:" t"}),s.jsx(e.span,{style:{color:"#24292E","--shiki-dark":"#ADBAC7"},children:") "}),s.jsx(e.span,{style:{color:"#D73A49","--shiki-dark":"#F47067"},children:"public"}),s.jsx(e.span,{style:{color:"#D73A49","--shiki-dark":"#F47067"},children:" pure"}),s.jsx(e.span,{style:{color:"#24292E","--shiki-dark":"#ADBAC7"},children:" {}"})]}),`
+`,s.jsx(e.span,{className:"line",children:s.jsx(e.span,{style:{color:"#24292E","--shiki-dark":"#ADBAC7"},children:"}"})})]})})}),`
+`,s.jsxs(e.p,{children:["Structs are encoded as tuples (see ",s.jsx(e.a,{href:"/misc/struct-encoding",children:"struct encoding"}),")."]}),`
+`,s.jsx(s.Fragment,{children:s.jsx(e.pre,{className:"shiki shiki-themes github-light github-dark-dimmed",style:{backgroundColor:"#fff","--shiki-dark-bg":"#22272e",color:"#24292e","--shiki-dark":"#adbac7"},tabIndex:"0",children:s.jsx(e.code,{children:s.jsxs(e.span,{className:"line",children:[s.jsx(e.span,{style:{color:"#6F42C1","--shiki-dark":"#F69D50"},children:"cast"}),s.jsx(e.span,{style:{color:"#032F62","--shiki-dark":"#96D0FF"},children:" sig"}),s.jsx(e.span,{style:{color:"#032F62","--shiki-dark":"#96D0FF"},children:' "myfunction((address,uint256))"'})]})})})}),`
+`]}),`
+`]}),`
+`,s.jsxs(e.h3,{id:"see-also",children:["SEE ALSO",s.jsx(e.a,{"aria-hidden":"true",tabIndex:"-1",href:"#see-also",children:s.jsx(e.div,{"data-autolink-icon":!0})})]}),`
+`,s.jsxs(e.p,{children:[s.jsx(e.a,{href:"/cast/reference/overview",children:"cast"}),", ",s.jsx(e.a,{href:"/misc/struct-encoding",children:"struct encoding"})]})]})}function h(i={}){const{wrapper:e}={...r(),...i.components};return e?s.jsx(e,{...i,children:s.jsx(n,{...i})}):n(i)}export{h as default,t as frontmatter};

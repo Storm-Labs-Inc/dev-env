@@ -1,0 +1,12 @@
+import{j as e}from"./index-D5UbER3f.js";import{u as a}from"./index-CZxYc6i7.js";const d=void 0;function t(n){const s={a:"a",blockquote:"blockquote",code:"code",div:"div",h2:"h2",h3:"h3",p:"p",pre:"pre",span:"span",strong:"strong",...a(),...n.components};return e.jsxs(e.Fragment,{children:[e.jsxs(s.h2,{id:"allowcheatcodes",children:[e.jsx(s.code,{children:"allowCheatcodes"}),e.jsx(s.a,{"aria-hidden":"true",tabIndex:"-1",href:"#allowcheatcodes",children:e.jsx(s.div,{"data-autolink-icon":!0})})]}),`
+`,e.jsxs(s.h3,{id:"signature",children:["Signature",e.jsx(s.a,{"aria-hidden":"true",tabIndex:"-1",href:"#signature",children:e.jsx(s.div,{"data-autolink-icon":!0})})]}),`
+`,e.jsx(e.Fragment,{children:e.jsx(s.pre,{className:"shiki shiki-themes github-light github-dark-dimmed",style:{backgroundColor:"#fff","--shiki-dark-bg":"#22272e",color:"#24292e","--shiki-dark":"#adbac7"},tabIndex:"0",children:e.jsx(s.code,{children:e.jsxs(s.span,{className:"line",children:[e.jsx(s.span,{style:{color:"#D73A49","--shiki-dark":"#F47067"},children:"function"}),e.jsx(s.span,{style:{color:"#6F42C1","--shiki-dark":"#DCBDFB"},children:" allowCheatcodes"}),e.jsx(s.span,{style:{color:"#24292E","--shiki-dark":"#ADBAC7"},children:"("}),e.jsx(s.span,{style:{color:"#005CC5","--shiki-dark":"#6CB6FF"},children:"address"}),e.jsx(s.span,{style:{color:"#24292E","--shiki-dark":"#ADBAC7"},children:") "}),e.jsx(s.span,{style:{color:"#D73A49","--shiki-dark":"#F47067"},children:"external"}),e.jsx(s.span,{style:{color:"#24292E","--shiki-dark":"#ADBAC7"},children:";"})]})})})}),`
+`,e.jsxs(s.h3,{id:"description",children:["Description",e.jsx(s.a,{"aria-hidden":"true",tabIndex:"-1",href:"#description",children:e.jsx(s.div,{"data-autolink-icon":!0})})]}),`
+`,e.jsx(s.p,{children:"In forking mode, explicitly grant the given address cheatcode access."}),`
+`,e.jsx(s.p,{children:`By default, the test contract, and its deployer are allowed to access cheatcodes. In addition to that, cheat code
+access is granted if the contract was deployed by an address that already has cheatcode access.
+This will prevent cheatcode access from accounts already deployed on the forked network.`}),`
+`,e.jsxs(s.blockquote,{children:[`
+`,e.jsxs(s.p,{children:["ℹ️ ",e.jsx(s.strong,{children:"Note"})]}),`
+`,e.jsx(s.p,{children:"This is only useful for more complex test setups in forking mode."}),`
+`]})]})}function o(n={}){const{wrapper:s}={...a(),...n.components};return s?e.jsx(s,{...n,children:e.jsx(t,{...n})}):t(n)}export{o as default,d as frontmatter};

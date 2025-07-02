@@ -1,0 +1,4 @@
+import{j as t}from"./index-D5UbER3f.js";import r from"./rpc-url-option-Bdlv6sNx.js";import{u as o}from"./index-CZxYc6i7.js";const d=void 0;function s(e){const n={a:"a",br:"br",code:"code",div:"div",h4:"h4",p:"p",...o(),...e.components};return t.jsxs(t.Fragment,{children:[t.jsxs(n.h4,{id:"rpc-options",children:["RPC Options",t.jsx(n.a,{"aria-hidden":"true",tabIndex:"-1",href:"#rpc-options",children:t.jsx(n.div,{"data-autolink-icon":!0})})]}),`
+`,t.jsx(r,{}),`
+`,t.jsxs(n.p,{children:[t.jsx(n.code,{children:"--flashbots"}),t.jsx(n.br,{}),`
+`,"    Use the Flashbots RPC URL: ",t.jsx(n.a,{href:"https://rpc.flashbots.net",children:"https://rpc.flashbots.net"}),"."]})]})}function h(e={}){const{wrapper:n}={...o(),...e.components};return n?t.jsx(n,{...e,children:t.jsx(s,{...e})}):s(e)}export{h as default,d as frontmatter};

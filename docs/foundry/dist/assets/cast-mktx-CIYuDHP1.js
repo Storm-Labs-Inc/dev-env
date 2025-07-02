@@ -1,0 +1,48 @@
+import{j as s}from"./index-D5UbER3f.js";import a from"./sig-description-BQxkyap_.js";import d from"./transaction-options-DcX8sy4C.js";import l from"./wallet-options-raw-DUA3oCjg.js";import c from"./wallet-options-keystore-DuC5PFVS.js";import t from"./wallet-options-hardware-CzqFrXbI.js";import h from"./rpc-options-D0SEoQy0.js";import o from"./etherscan-options-CLooEQsH.js";import x from"./common-options-OsAHhg-o.js";import{u as r}from"./index-CZxYc6i7.js";import"./tx-value-option-CLXgq6c9.js";import"./rpc-url-option-Bdlv6sNx.js";const A=void 0;function n(i){const e={a:"a",br:"br",code:"code",div:"div",em:"em",h2:"h2",h3:"h3",li:"li",ol:"ol",p:"p",pre:"pre",span:"span",...r(),...i.components};return s.jsxs(s.Fragment,{children:[s.jsxs(e.h2,{id:"cast-mktx",children:["cast mktx",s.jsx(e.a,{"aria-hidden":"true",tabIndex:"-1",href:"#cast-mktx",children:s.jsx(e.div,{"data-autolink-icon":!0})})]}),`
+`,s.jsxs(e.h3,{id:"name",children:["NAME",s.jsx(e.a,{"aria-hidden":"true",tabIndex:"-1",href:"#name",children:s.jsx(e.div,{"data-autolink-icon":!0})})]}),`
+`,s.jsx(e.p,{children:"cast-mktx - Build and sign a transaction."}),`
+`,s.jsxs(e.h3,{id:"synopsis",children:["SYNOPSIS",s.jsx(e.a,{"aria-hidden":"true",tabIndex:"-1",href:"#synopsis",children:s.jsx(e.div,{"data-autolink-icon":!0})})]}),`
+`,s.jsxs(e.p,{children:[s.jsx(e.code,{children:"cast mktx"})," [",s.jsx(e.em,{children:"options"}),"] ",s.jsx(e.em,{children:"to"})," [",s.jsx(e.em,{children:"sig"}),"] [",s.jsx(e.em,{children:"args..."}),"]"]}),`
+`,s.jsxs(e.h3,{id:"description",children:["DESCRIPTION",s.jsx(e.a,{"aria-hidden":"true",tabIndex:"-1",href:"#description",children:s.jsx(e.div,{"data-autolink-icon":!0})})]}),`
+`,s.jsx(e.p,{children:"Build and sign a transaction, without publishing it."}),`
+`,s.jsxs(e.p,{children:["The destination (",s.jsx(e.em,{children:"to"}),") can be an ENS name or an address."]}),`
+`,s.jsx(a,{}),`
+`,s.jsxs(e.h3,{id:"options",children:["OPTIONS",s.jsx(e.a,{"aria-hidden":"true",tabIndex:"-1",href:"#options",children:s.jsx(e.div,{"data-autolink-icon":!0})})]}),`
+`,s.jsx(d,{}),`
+`,s.jsxs(e.p,{children:[s.jsx(e.code,{children:"--create"})," ",s.jsx(e.em,{children:"code"})," [",s.jsx(e.em,{children:"sig"})," ",s.jsx(e.em,{children:"args..."}),"]",s.jsx(e.br,{}),`
+`,"    Deploy a contract by specifying raw bytecode, in place of specifying a ",s.jsx(e.em,{children:"to"})," address."]}),`
+`,s.jsx(l,{}),`
+`,s.jsx(c,{}),`
+`,s.jsx(t,{}),`
+`,s.jsx(h,{}),`
+`,s.jsx(o,{}),`
+`,s.jsx(x,{}),`
+`,s.jsxs(e.h3,{id:"examples",children:["EXAMPLES",s.jsx(e.a,{"aria-hidden":"true",tabIndex:"-1",href:"#examples",children:s.jsx(e.div,{"data-autolink-icon":!0})})]}),`
+`,s.jsxs(e.ol,{children:[`
+`,s.jsxs(e.li,{children:[`
+`,s.jsx(e.p,{children:"Sign a transaction that sends some ether to Vitalik using your Ledger:"}),`
+`,s.jsx(s.Fragment,{children:s.jsx(e.pre,{className:"shiki shiki-themes github-light github-dark-dimmed",style:{backgroundColor:"#fff","--shiki-dark-bg":"#22272e",color:"#24292e","--shiki-dark":"#adbac7"},tabIndex:"0",children:s.jsx(e.code,{children:s.jsxs(e.span,{className:"line",children:[s.jsx(e.span,{style:{color:"#6F42C1","--shiki-dark":"#F69D50"},children:"cast"}),s.jsx(e.span,{style:{color:"#032F62","--shiki-dark":"#96D0FF"},children:" mktx"}),s.jsx(e.span,{style:{color:"#005CC5","--shiki-dark":"#6CB6FF"},children:" --ledger"}),s.jsx(e.span,{style:{color:"#032F62","--shiki-dark":"#96D0FF"},children:" vitalik.eth"}),s.jsx(e.span,{style:{color:"#005CC5","--shiki-dark":"#6CB6FF"},children:" --value"}),s.jsx(e.span,{style:{color:"#032F62","--shiki-dark":"#96D0FF"},children:" 0.1ether"})]})})})}),`
+`]}),`
+`,s.jsxs(e.li,{children:[`
+`,s.jsxs(e.p,{children:["Sign a transaction that calls ",s.jsx(e.code,{children:"deposit(address token, uint256 amount)"})," on a contract:"]}),`
+`,s.jsx(s.Fragment,{children:s.jsx(e.pre,{className:"shiki shiki-themes github-light github-dark-dimmed",style:{backgroundColor:"#fff","--shiki-dark-bg":"#22272e",color:"#24292e","--shiki-dark":"#adbac7"},tabIndex:"0",children:s.jsx(e.code,{children:s.jsxs(e.span,{className:"line",children:[s.jsx(e.span,{style:{color:"#6F42C1","--shiki-dark":"#F69D50"},children:"cast"}),s.jsx(e.span,{style:{color:"#032F62","--shiki-dark":"#96D0FF"},children:" mktx"}),s.jsx(e.span,{style:{color:"#005CC5","--shiki-dark":"#6CB6FF"},children:" --ledger"}),s.jsx(e.span,{style:{color:"#032F62","--shiki-dark":"#96D0FF"},children:" 0x..."}),s.jsx(e.span,{style:{color:"#032F62","--shiki-dark":"#96D0FF"},children:' "deposit(address,uint256)"'}),s.jsx(e.span,{style:{color:"#032F62","--shiki-dark":"#96D0FF"},children:" 0x..."}),s.jsx(e.span,{style:{color:"#005CC5","--shiki-dark":"#6CB6FF"},children:" 1"})]})})})}),`
+`]}),`
+`,s.jsxs(e.li,{children:[`
+`,s.jsxs(e.p,{children:["Sign a transaction that calls a function that expects a ",s.jsx(e.code,{children:"struct"}),":"]}),`
+`,s.jsx(s.Fragment,{children:s.jsx(e.pre,{className:"shiki shiki-themes github-light github-dark-dimmed",style:{backgroundColor:"#fff","--shiki-dark-bg":"#22272e",color:"#24292e","--shiki-dark":"#adbac7"},tabIndex:"0",children:s.jsxs(e.code,{children:[s.jsxs(e.span,{className:"line",children:[s.jsx(e.span,{style:{color:"#D73A49","--shiki-dark":"#F47067"},children:"contract"}),s.jsx(e.span,{style:{color:"#6F42C1","--shiki-dark":"#F69D50"},children:" Test"}),s.jsx(e.span,{style:{color:"#24292E","--shiki-dark":"#ADBAC7"},children:" {"})]}),`
+`,s.jsxs(e.span,{className:"line",children:[s.jsx(e.span,{style:{color:"#D73A49","--shiki-dark":"#F47067"},children:"    struct"}),s.jsx(e.span,{style:{color:"#6F42C1","--shiki-dark":"#F69D50"},children:" MyStruct"}),s.jsx(e.span,{style:{color:"#24292E","--shiki-dark":"#ADBAC7"},children:" {"})]}),`
+`,s.jsxs(e.span,{className:"line",children:[s.jsx(e.span,{style:{color:"#005CC5","--shiki-dark":"#6CB6FF"},children:"        address"}),s.jsx(e.span,{style:{color:"#24292E","--shiki-dark":"#ADBAC7"},children:" addr;"})]}),`
+`,s.jsxs(e.span,{className:"line",children:[s.jsx(e.span,{style:{color:"#005CC5","--shiki-dark":"#6CB6FF"},children:"        uint256"}),s.jsx(e.span,{style:{color:"#24292E","--shiki-dark":"#ADBAC7"},children:" amount;"})]}),`
+`,s.jsx(e.span,{className:"line",children:s.jsx(e.span,{style:{color:"#24292E","--shiki-dark":"#ADBAC7"},children:"    }"})}),`
+`,s.jsxs(e.span,{className:"line",children:[s.jsx(e.span,{style:{color:"#D73A49","--shiki-dark":"#F47067"},children:"    function"}),s.jsx(e.span,{style:{color:"#6F42C1","--shiki-dark":"#DCBDFB"},children:" myfunction"}),s.jsx(e.span,{style:{color:"#24292E","--shiki-dark":"#ADBAC7"},children:"("}),s.jsx(e.span,{style:{color:"#D73A49","--shiki-dark":"#F47067"},children:"MyStruct"}),s.jsx(e.span,{style:{color:"#D73A49","--shiki-dark":"#F47067"},children:" memory"}),s.jsx(e.span,{style:{color:"#E36209","--shiki-dark":"#F69D50"},children:" t"}),s.jsx(e.span,{style:{color:"#24292E","--shiki-dark":"#ADBAC7"},children:") "}),s.jsx(e.span,{style:{color:"#D73A49","--shiki-dark":"#F47067"},children:"public"}),s.jsx(e.span,{style:{color:"#D73A49","--shiki-dark":"#F47067"},children:" pure"}),s.jsx(e.span,{style:{color:"#24292E","--shiki-dark":"#ADBAC7"},children:" {}"})]}),`
+`,s.jsx(e.span,{className:"line",children:s.jsx(e.span,{style:{color:"#24292E","--shiki-dark":"#ADBAC7"},children:"}"})})]})})}),`
+`,s.jsxs(e.p,{children:["Structs are encoded as tuples (see ",s.jsx(e.a,{href:"/misc/struct-encoding",children:"struct encoding"}),")"]}),`
+`,s.jsx(s.Fragment,{children:s.jsx(e.pre,{className:"shiki shiki-themes github-light github-dark-dimmed",style:{backgroundColor:"#fff","--shiki-dark-bg":"#22272e",color:"#24292e","--shiki-dark":"#adbac7"},tabIndex:"0",children:s.jsx(e.code,{children:s.jsxs(e.span,{className:"line",children:[s.jsx(e.span,{style:{color:"#6F42C1","--shiki-dark":"#F69D50"},children:"cast"}),s.jsx(e.span,{style:{color:"#032F62","--shiki-dark":"#96D0FF"},children:" mktx"}),s.jsx(e.span,{style:{color:"#032F62","--shiki-dark":"#96D0FF"},children:" 0x..."}),s.jsx(e.span,{style:{color:"#032F62","--shiki-dark":"#96D0FF"},children:' "myfunction((address,uint256))"'}),s.jsx(e.span,{style:{color:"#032F62","--shiki-dark":"#96D0FF"},children:' "(0x...,1)"'})]})})})}),`
+`]}),`
+`,s.jsxs(e.li,{children:[`
+`,s.jsxs(e.p,{children:["Sign a transaction with hex data in the ",s.jsx(e.code,{children:"input"})," field of the transaction object:"]}),`
+`,s.jsx(s.Fragment,{children:s.jsx(e.pre,{className:"shiki shiki-themes github-light github-dark-dimmed",style:{backgroundColor:"#fff","--shiki-dark-bg":"#22272e",color:"#24292e","--shiki-dark":"#adbac7"},tabIndex:"0",children:s.jsx(e.code,{children:s.jsxs(e.span,{className:"line",children:[s.jsx(e.span,{style:{color:"#6F42C1","--shiki-dark":"#F69D50"},children:"cast"}),s.jsx(e.span,{style:{color:"#032F62","--shiki-dark":"#96D0FF"},children:" mktx"}),s.jsx(e.span,{style:{color:"#032F62","--shiki-dark":"#96D0FF"},children:" 0x..."}),s.jsx(e.span,{style:{color:"#005CC5","--shiki-dark":"#6CB6FF"},children:" 0x68656c6c6f20776f726c64"})]})})})}),`
+`]}),`
+`]}),`
+`,s.jsxs(e.h3,{id:"see-also",children:["SEE ALSO",s.jsx(e.a,{"aria-hidden":"true",tabIndex:"-1",href:"#see-also",children:s.jsx(e.div,{"data-autolink-icon":!0})})]}),`
+`,s.jsxs(e.p,{children:[s.jsx(e.a,{href:"/cast/reference/overview",children:"cast"}),", ",s.jsx(e.a,{href:"/cast/reference/cast-publish",children:"cast publish"}),", ",s.jsx(e.a,{href:"/cast/reference/cast-send",children:"cast send"}),", ",s.jsx(e.a,{href:"/misc/struct-encoding",children:"struct encoding"})]})]})}function N(i={}){const{wrapper:e}={...r(),...i.components};return e?s.jsx(e,{...i,children:s.jsx(n,{...i})}):n(i)}export{N as default,A as frontmatter};
