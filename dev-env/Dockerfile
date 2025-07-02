@@ -1,8 +1,14 @@
+# hadolint global ignore=DL3008
+# hadolint global ignore=DL3006
+# hadolint global ignore=SC1091
 ARG RUNTIME_BASE="ubuntu:22.04"
 ARG FOUNDRY_VERSION="latest"
 FROM ghcr.io/foundry-rs/foundry:${FOUNDRY_VERSION} AS builder
 
-# Ensure we have root privileges for package installation
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
+# Switch to root for system package installation (builder stage only)
+# hadolint ignore=DL3002
 USER root
 
 LABEL org.opencontainers.image.source="https://github.com/storm-labs/dev-env"
@@ -38,6 +44,7 @@ ENV PATH="$PNPM_HOME:/root/.cargo/bin:${PATH}"
 RUN curl -fsSL https://get.pnpm.io/install.sh | bash -s -- && \
     pnpm env use -g ${NODE_VERSION} && \
     curl https://sh.rustup.rs -sSf | bash -s -- -y --no-modify-path && \
+    # shellcheck source=/dev/null
     . "$CARGO_HOME/env" && \
     rustup toolchain install ${RUST_VERSION} && \
     rustup default ${RUST_VERSION}
@@ -49,14 +56,16 @@ RUN add-apt-repository ppa:deadsnakes/ppa && \
     apt-get update -y && \
     apt-get install -y --no-install-recommends python3.12 python3.12-venv && \
     curl -sS https://bootstrap.pypa.io/get-pip.py | python3.12 && \
-    python3.12 -m pip install --no-cache-dir pipx && \
-    pipx install uv && \
+    python3.12 -m pip install --no-cache-dir pipx==1.7.1 && \
+    pipx install uv==0.7.18 && \
     rm -rf /var/lib/apt/lists/*
 
 # ---------------------------------------------------------------------------
 # Final minimal runtime image
 # ---------------------------------------------------------------------------
 FROM ${RUNTIME_BASE} AS runtime
+
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 LABEL org.opencontainers.image.source="https://github.com/storm-labs/dev-env"
 
