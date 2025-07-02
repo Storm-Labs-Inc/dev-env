@@ -40,6 +40,14 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      # Enable cross-compilation for arm64 images
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      # Initialise a Buildx builder instance capable of multi-arch builds
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
       - name: Extract metadata (tags, labels) for Docker
         id: meta
         uses: docker/metadata-action@v5
@@ -55,6 +63,7 @@ jobs:
           context: .
           file: ./dev-env/Dockerfile
           push: true
+          platforms: linux/amd64,linux/arm64
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           # Docker layer caching handled automatically by Blacksmith

@@ -7,7 +7,7 @@ A self-contained Docker image that bundles the complete tool-chain required for 
 | Category | Tooling |
 |-----------|---------|
 | Blockchain | Foundry (`forge`, `cast`, `anvil`) |
-| JavaScript | Node.js 22, `pnpm` |
+| JavaScript | Node.js 22 (22.4.0), `pnpm` |
 | Python     | Python 3.12, [`pipx`](https://pypa.github.io/pipx), [`uv`](https://github.com/astral-sh/uv) |
 | Rust       | `rustup` + stable tool-chain |
 | Utilities  | `git`, `curl`, `build-essential`, many more |
@@ -17,7 +17,12 @@ The multi-stage `Dockerfile` lives in `dev-env/` and produces a minimal runtime 
 ## 🚀 Quick-start (Docker CLI)
 
 ```bash
-# 1. Build the image locally and tag it as :local
+# 0. (Optional) Use the pre-built image from GHCR – works on both amd64 & Apple Silicon/arm64
+#    The `latest` tag always points to the most recent successful build from `master`.
+docker pull ghcr.io/storm-labs/dev-env:latest
+
+# 1. Build the image locally (if you need local changes) and tag it as :local
+#    Both ghcr.io/** and docker.io/** aliases are produced for convenience.
 just build
 
 # 2. Open an ephemeral shell inside the container
@@ -45,7 +50,7 @@ Opening this repository in **[Cursor](https://cursor.sh)** automatically starts 
 
 | Recipe | Description |
 |--------|-------------|
-| `just build` | Build the dev image and tag it as `:local`. |
+| `just build` | Build the dev image and tag it as `:local` (both `ghcr.io/storm-labs/**` and `storm-labs/**`). |
 | `just lint` | Lint the Dockerfile with [hadolint](https://github.com/hadolint/hadolint). |
 | `just dev-install` | Hook executed by Cursor to install extra dependencies (currently does nothing). |
 | `just` | List all available recipes. |
@@ -54,13 +59,14 @@ Opening this repository in **[Cursor](https://cursor.sh)** automatically starts 
 
 ## 📦 Publishing
 
-A GitHub Actions workflow (`.github/workflows/publish-image.yml`) automatically **builds and pushes** the image to `ghcr.io/storm-labs/dev-env` on every commit to `master` _and_ for any semantic version tag (e.g. `v1.2.3`).
+A GitHub Actions workflow (`.github/workflows/publish-image.yml`) automatically **builds and pushes** a **multi-arch (amd64 + arm64)** image to `ghcr.io/storm-labs/dev-env` on every commit to `master` _and_ for any semantic version tag (e.g. `v1.2.3`). Each build is additionally tagged with the short commit SHA for deterministic pinning.
 
 ## 🖇️ Related Files
 
 * **`dev-env/Dockerfile`** – Multi-stage build producing a stripped-down runtime image.
 * **`.cursor/environment.json`** – Instructions for Cursor-based dev-containers.
 * **`justfile`** – Helper scripts for building, linting, and future automation.
+* **`.github/workflows/update-docs.yml`** – Weekly cron that refreshes the offline documentation cache.
 
 ## 📚 Offline Documentation
 

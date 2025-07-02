@@ -1,0 +1,24 @@
+# Ignore Git history and metadata
+.git
+
+# GitHub workflows & CI configs not needed for build
+.github
+
+# Local documentation mirror (copied separately in runtime stage)
+# docs
+
+# Optional cached docs branch (synced separately by CI)
+docs-cache
+
+# Cursor config
+.cursor
+
+# Node, Python, Rust build artifacts
+node_modules
+__pycache__
+*.py[cod]
+*.swp
+
+# Editor/OS artifacts
+.DS_Store
+*.log

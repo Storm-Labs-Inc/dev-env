@@ -24,4 +24,7 @@ lint:
 # Build the dev container locally.
 # Usage: just build
 build:
-  docker build -t storm-labs/dev-env:local -f dev-env/Dockerfile .
+  docker build \
+    -t ghcr.io/storm-labs/dev-env:local \
+    -t storm-labs/dev-env:local \
+    -f dev-env/Dockerfile .

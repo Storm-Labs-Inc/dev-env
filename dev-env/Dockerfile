@@ -1,4 +1,6 @@
-FROM ghcr.io/foundry-rs/foundry:latest AS builder
+ARG RUNTIME_BASE="ubuntu:22.04"
+ARG FOUNDRY_VERSION="latest"
+FROM ghcr.io/foundry-rs/foundry:${FOUNDRY_VERSION} AS builder
 
 # Ensure we have root privileges for package installation
 USER root
@@ -26,15 +28,19 @@ RUN apt-get update -y && \
 # --------------------------
 # 2. pnpm, Node.js, Rust (Foundry pre-installed in base image)
 # --------------------------
+ARG NODE_VERSION="22.4.0"
+ARG RUST_VERSION="1.77.1"
+
 ENV PNPM_HOME="/root/.local/share/pnpm" \
     CARGO_HOME="/root/.cargo"
 ENV PATH="$PNPM_HOME:/root/.cargo/bin:${PATH}"
 
 RUN curl -fsSL https://get.pnpm.io/install.sh | bash -s -- && \
-    pnpm env use -g 22 && \
+    pnpm env use -g ${NODE_VERSION} && \
     curl https://sh.rustup.rs -sSf | bash -s -- -y --no-modify-path && \
     . "$CARGO_HOME/env" && \
-    rustup default stable
+    rustup toolchain install ${RUST_VERSION} && \
+    rustup default ${RUST_VERSION}
 
 # --------------------------
 # 3. Python 3.12 + pipx + uv
@@ -50,7 +56,7 @@ RUN add-apt-repository ppa:deadsnakes/ppa && \
 # ---------------------------------------------------------------------------
 # Final minimal runtime image
 # ---------------------------------------------------------------------------
-FROM ubuntu:22.04 AS runtime
+FROM ${RUNTIME_BASE} AS runtime
 
 LABEL org.opencontainers.image.source="https://github.com/storm-labs/dev-env"
 
@@ -69,6 +75,11 @@ ENV DOCS_HOME="/usr/share/docs"
 
 RUN apt-get update -y && \
     apt-get install -y --no-install-recommends ca-certificates libssl-dev && \
-    rm -rf /var/lib/apt/lists/*
+    apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Create non-root user for safer defaults
+RUN useradd -m dev && chown -R dev:dev /root /usr/share/docs
+
+USER dev
 
 ENTRYPOINT ["bash", "-lc"]
