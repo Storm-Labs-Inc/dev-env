@@ -65,6 +65,10 @@ ENV PNPM_HOME="/root/.local/share/pnpm"
 ENV PATH="$PNPM_HOME:/root/.local/bin:/usr/local/bin:/root/.cargo/bin:${PATH}" \
     DEBIAN_FRONTEND=noninteractive
 
+# Add offline documentation
+COPY docs /usr/share/docs
+ENV DOCS_HOME="/usr/share/docs"
+
 RUN apt-get update -y && \
     apt-get install -y --no-install-recommends ca-certificates libssl-dev && \
     rm -rf /var/lib/apt/lists/*

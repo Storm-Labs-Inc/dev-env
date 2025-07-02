@@ -1,0 +1,72 @@
+name: Refresh offline docs cache
+
+on:
+  schedule:
+    # Every Monday at 03:00 UTC
+    - cron: '0 3 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  refresh-docs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout docs-cache branch
+        uses: actions/checkout@v4
+        with:
+          ref: docs-cache
+
+      - name: Setup Node.js 20 & pnpm
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: Install wget and rsync
+        run: sudo apt-get update -y && sudo apt-get install -y --no-install-recommends wget rsync
+
+      - name: Clean docs directory
+        run: rm -rf docs && mkdir -p docs
+
+      - name: Mirror public documentation websites
+        run: |
+          # Secure Contracts
+          wget --mirror --convert-links --adjust-extension --page-requisites --no-parent -P docs/secure-contracts https://secure-contracts.com/
+
+          # Solidity (locked to v0.8.28 for deterministic structure)
+          wget --mirror --convert-links --adjust-extension --page-requisites --no-parent -P docs/solidity https://docs.soliditylang.org/en/v0.8.28/
+
+          # Foundry / forge docs
+          wget --mirror --convert-links --adjust-extension --page-requisites --no-parent -P docs/foundry https://getfoundry.sh/forge/reference/forge-doc/
+
+      - name: Checkout Cove docs source
+        uses: actions/checkout@v4
+        with:
+          repository: Storm-Labs-Inc/cove-docs-mintlify
+          ref: main
+          path: cove-docs
+          token: ${{ secrets.COVE_DOCS_TOKEN }}
+
+      - name: Build Cove Mintlify docs
+        run: |
+          cd cove-docs
+          pnpm install --frozen-lockfile
+          pnpm run build
+          rsync -a --delete ./build/ ../docs/cove
+          cd ..
+
+      - name: Commit and push changes (if any)
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          if [[ -n "$(git status --porcelain docs)" ]]; then
+            git add docs
+            git commit -m "chore: refresh offline docs $(date -u +'%Y-%m-%dT%H:%M:%SZ')"
+            git push origin docs-cache
+          else
+            echo "No documentation changes detected."
+          fi

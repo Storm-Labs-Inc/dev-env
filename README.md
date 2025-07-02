@@ -61,3 +61,16 @@ A GitHub Actions workflow (`.github/workflows/publish-image.yml`) automatically 
 * **`dev-env/Dockerfile`** – Multi-stage build producing a stripped-down runtime image.
 * **`.cursor/environment.json`** – Instructions for Cursor-based dev-containers.
 * **`justfile`** – Helper scripts for building, linting, and future automation.
+
+## 📚 Offline Documentation
+
+The container now ships with an **offline mirror** of the following documentation sources:
+
+1. [secure-contracts.com](https://secure-contracts.com)
+2. Solidity docs (v0.8.28)
+3. Foundry ‣ forge reference docs
+4. Storm's internal Cove docs
+
+At runtime the mirror is mounted at `$DOCS_HOME` (`/usr/share/docs`). Open any `index.html` inside that directory to browse completely offline—perfect for flights, air-gapped CI, or when the public sites go down.
+
+The mirror is refreshed weekly by the `update-docs.yml` workflow so it's always up-to-date without manual intervention.
