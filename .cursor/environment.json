@@ -2,7 +2,7 @@
   "dockerfile": "dev-env/Dockerfile",
   "install": "just dev-install",
   "terminals": [
-    { "name": "Anvil", "command": "anvil -p 8545" },
-    { "name": "Foundry Tests", "command": "forge test -vvv" }
+    { "name": "Anvil", "command": "docker run --rm -p 8545:8545 ghcr.io/foundry-rs/foundry anvil" },
+    { "name": "Foundry Tests", "command": "docker run --rm -v ${PWD}:/app -w /app ghcr.io/foundry-rs/foundry forge test -vvv" }
   ]
 } 

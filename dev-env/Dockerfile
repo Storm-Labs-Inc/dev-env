@@ -1,4 +1,4 @@
-FROM ubuntu:22.04 AS builder
+FROM ghcr.io/foundry-rs/foundry:latest AS builder
 
 LABEL org.opencontainers.image.source="https://github.com/storm-labs/dev-env"
 
@@ -21,21 +21,17 @@ RUN apt-get update -y && \
     rm -rf /var/lib/apt/lists/*
 
 # --------------------------
-# 2. pnpm, Node.js, Rust, Foundry
+# 2. pnpm, Node.js, Rust (Foundry pre-installed in base image)
 # --------------------------
 ENV PNPM_HOME="/root/.local/share/pnpm" \
-    CARGO_HOME="/root/.cargo" \
-    FOUNDRY_DIR="/root/.foundry"
+    CARGO_HOME="/root/.cargo"
 ENV PATH="$PNPM_HOME:/root/.cargo/bin:${PATH}"
 
 RUN curl -fsSL https://get.pnpm.io/install.sh | bash -s -- && \
     pnpm env use -g 22 && \
     curl https://sh.rustup.rs -sSf | bash -s -- -y --no-modify-path && \
     . "$CARGO_HOME/env" && \
-    rustup default stable && \
-    curl -L https://foundry.paradigm.xyz | bash && \
-    $FOUNDRY_DIR/bin/foundryup && \
-    ln -s $FOUNDRY_DIR/bin/* /usr/local/bin/
+    rustup default stable
 
 # --------------------------
 # 3. Python 3.12 + pipx + uv
@@ -59,7 +55,6 @@ COPY --from=builder /usr/local /usr/local
 COPY --from=builder /root/.local /root/.local
 COPY --from=builder /root/.cargo /root/.cargo
 COPY --from=builder /root/.rustup /root/.rustup
-COPY --from=builder /root/.foundry /root/.foundry
 
 ENV PNPM_HOME="/root/.local/share/pnpm"
 ENV PATH="$PNPM_HOME:/root/.local/bin:/usr/local/bin:/root/.cargo/bin:${PATH}" \
