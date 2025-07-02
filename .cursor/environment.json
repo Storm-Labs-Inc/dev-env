@@ -1,0 +1,8 @@
+{
+  "dockerfile": "dev-env/Dockerfile",
+  "install": "just dev-install",
+  "terminals": [
+    { "name": "Anvil", "command": "anvil -p 8545" },
+    { "name": "Foundry Tests", "command": "forge test -vvv" }
+  ]
+} 

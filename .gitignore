@@ -1,0 +1,25 @@
+# General
+.DS_Store
+.env
+*.log
+*.sqlite
+
+# Node
+node_modules/
+.pnpm-store/
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Rust
+/target/
+
+# Docker
+*.tar
+
+# Editor directories and files
+.idea/
+.vscode/
+.cursor/local- 
