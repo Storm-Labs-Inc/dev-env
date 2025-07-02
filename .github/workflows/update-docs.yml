@@ -14,68 +14,97 @@ jobs:
     runs-on: blacksmith-8vcpu-ubuntu-2404
     steps:
       - name: Checkout docs-cache branch
+        id: docs_cache
+        continue-on-error: true
         uses: actions/checkout@v4
         with:
           ref: docs-cache
 
-      - name: Setup Node.js 22 & pnpm (Blacksmith cache)
-        uses: useblacksmith/setup-node@v5
-        with:
-          node-version: 22
-          check-latest: true
-      - uses: pnpm/action-setup@v2
-        with:
-          version: 10
-
-      - name: Checkout Cove docs source
+      - name: Checkout default branch (fallback)
+        if: steps.docs_cache.outcome != 'success'
         uses: actions/checkout@v4
-        with:
-          repository: Storm-Labs-Inc/cove-docs-mintlify
-          ref: master
-          path: cove-docs
-          token: ${{ secrets.COVE_DOCS_TOKEN }}
 
-      # Persist large dependency tree between runs for near-instant access
-      - name: Mount node_modules (Sticky Disk)
-        uses: useblacksmith/stickydisk@v1
-        with:
-          key: ${{ github.repository }}-node-modules
-          path: cove-docs/node_modules
+      - name: Ensure docs-cache branch exists locally
+        run: git checkout -B docs-cache
 
-      # Cache pnpm store for much faster subsequent installs (Blacksmith cache)
-      - name: Cache pnpm store
-        uses: useblacksmith/cache@v5
-        with:
-          path: |
-            ~/.pnpm-store
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('cove-docs/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-store-
+      - name: Configure Git for private submodule
+        run: git config --global url."https://x-access-token:${{ secrets.COVE_DOCS_TOKEN }}@github.com/Storm-Labs-Inc".insteadOf "https://github.com/Storm-Labs-Inc"
 
-      - name: Install wget and rsync
+      - name: Initialize and update submodule
+        run: git submodule update --init --recursive
+
+      - name: Update docs submodule to latest
+        run: git submodule update --remote --merge docs-src/cove-mintlify
+
+      - name: Install wget & rsync
         run: sudo apt-get update -y && sudo apt-get install -y --no-install-recommends wget rsync
+
+      - name: Install mdBook
+        env:
+          MDBOOK_VERSION: 0.4.37
+        run: |
+          curl -fsSL -o mdbook.tar.gz "https://github.com/rust-lang/mdBook/releases/download/v${MDBOOK_VERSION}/mdbook-v${MDBOOK_VERSION}-x86_64-unknown-linux-gnu.tar.gz"
+          tar -xzf mdbook.tar.gz
+          sudo mv mdbook /usr/local/bin/
+          rm mdbook.tar.gz
+          mdbook --version
 
       - name: Clean docs directory
         run: rm -rf docs && mkdir -p docs
 
-      - name: Mirror public documentation websites
+      # -----------------------------------------------------------------
+      # Secure Contracts — build mdBook from source (faster & deterministic)
+      # -----------------------------------------------------------------
+      - name: Build Secure Contracts docs from source
         run: |
-          # Secure Contracts
-          wget --mirror --convert-links --adjust-extension --page-requisites --no-parent -P docs/secure-contracts https://secure-contracts.com/
+          git clone --depth 1 https://github.com/crytic/building-secure-contracts secure-contracts-src
+          mdbook build secure-contracts-src
+          rsync -a --delete secure-contracts-src/book/ docs/secure-contracts
+          rm -rf secure-contracts-src
 
+      # -----------------------------------------------------------------
+      # Foundry — build docs from source using Vocs
+      # -----------------------------------------------------------------
+      - name: Setup Bun (required by Vocs)
+        uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: 1.1.10
+
+      - name: Build Foundry docs from source
+        run: |
+          git clone --depth 1 https://github.com/foundry-rs/book foundry-book-src
+          cd foundry-book-src/vocs
+          bun install --frozen-lockfile || true  # no package.json may still proceed
+          # Use bunx to build with Vocs; output defaults to dist/
+          bunx vocs@latest build
+          # Detect output directory dynamically (dist, build, docs, out)
+          OUTPUT_DIR=$(find .. -maxdepth 2 -type d \( -name dist -o -name build -o -name docs -o -name out \) | head -n 1)
+          echo "Detected Vocs output directory: $OUTPUT_DIR"
+          rsync -a --delete "$OUTPUT_DIR/" ../../docs/foundry
+          cd ../../..
+          rm -rf foundry-book-src
+
+      - name: Mirror public documentation websites (Solidity)
+        run: |
           # Solidity (locked to v0.8.28 for deterministic structure)
           wget --mirror --convert-links --adjust-extension --page-requisites --no-parent -P docs/solidity https://docs.soliditylang.org/en/v0.8.28/
 
-          # Foundry / forge docs
-          wget --mirror --convert-links --adjust-extension --page-requisites --no-parent -P docs/foundry https://getfoundry.sh/forge/reference/forge-doc/
-
-      - name: Build Cove Mintlify docs
+      - name: Process Cove Mintlify docs (MDX to Markdown)
         run: |
-          cd cove-docs
-          pnpm install --frozen-lockfile
-          pnpm run build
-          rsync -a --delete ./build/ ../docs/cove
-          cd ..
+          set -e
+          SRC_DIR="docs-src/cove-mintlify/docs"
+          export DEST_DIR="docs/cove"
+
+          rm -rf "$DEST_DIR"
+          mkdir -p "$DEST_DIR"
+
+          find "$SRC_DIR" -name '*.mdx' -print0 | xargs -0 -I{} bash -c '
+            f="{}"
+            out_file="$DEST_DIR/$(basename "${f%.mdx}.md")"
+
+            # Strip frontmatter and import/export statements
+            sed -E "/^---$/,/^---$/d" "$f" | sed -E "/^import .*/d;/^export .*/d" > "$out_file"
+          '
 
       - name: Commit and push changes (if any)
         run: |

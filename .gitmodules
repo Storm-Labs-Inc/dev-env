@@ -1,0 +1,4 @@
+[submodule "docs-src/cove-mintlify"]
+	path = docs-src/cove-mintlify
+	url = https://github.com/Storm-Labs-Inc/cove-docs-mintlify.git
+	branch = master
