@@ -11,20 +11,46 @@ permissions:
 
 jobs:
   refresh-docs:
-    runs-on: ubuntu-latest
+    runs-on: blacksmith-8vcpu-ubuntu-2404
     steps:
       - name: Checkout docs-cache branch
         uses: actions/checkout@v4
         with:
           ref: docs-cache
 
-      - name: Setup Node.js 20 & pnpm
-        uses: actions/setup-node@v4
+      - name: Setup Node.js 22 & pnpm (Blacksmith cache)
+        uses: useblacksmith/setup-node@v5
         with:
-          node-version: 20
+          node-version: 22
+          check-latest: true
       - uses: pnpm/action-setup@v2
         with:
-          version: 8
+          version: 10
+
+      - name: Checkout Cove docs source
+        uses: actions/checkout@v4
+        with:
+          repository: Storm-Labs-Inc/cove-docs-mintlify
+          ref: master
+          path: cove-docs
+          token: ${{ secrets.COVE_DOCS_TOKEN }}
+
+      # Persist large dependency tree between runs for near-instant access
+      - name: Mount node_modules (Sticky Disk)
+        uses: useblacksmith/stickydisk@v1
+        with:
+          key: ${{ github.repository }}-node-modules
+          path: cove-docs/node_modules
+
+      # Cache pnpm store for much faster subsequent installs (Blacksmith cache)
+      - name: Cache pnpm store
+        uses: useblacksmith/cache@v5
+        with:
+          path: |
+            ~/.pnpm-store
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('cove-docs/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
 
       - name: Install wget and rsync
         run: sudo apt-get update -y && sudo apt-get install -y --no-install-recommends wget rsync
@@ -42,14 +68,6 @@ jobs:
 
           # Foundry / forge docs
           wget --mirror --convert-links --adjust-extension --page-requisites --no-parent -P docs/foundry https://getfoundry.sh/forge/reference/forge-doc/
-
-      - name: Checkout Cove docs source
-        uses: actions/checkout@v4
-        with:
-          repository: Storm-Labs-Inc/cove-docs-mintlify
-          ref: main
-          path: cove-docs
-          token: ${{ secrets.COVE_DOCS_TOKEN }}
 
       - name: Build Cove Mintlify docs
         run: |
