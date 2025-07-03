@@ -78,6 +78,9 @@ ARG USERNAME
 ARG BUILD_DATE
 ARG VCS_REF
 
+ARG BUILD_DATE
+ARG VCS_REF
+
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 LABEL org.opencontainers.image.source="https://github.com/storm-labs/dev-env"
