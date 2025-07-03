@@ -1,7 +1,7 @@
 # hadolint global ignore=DL3008
 # hadolint global ignore=DL3006
 # hadolint global ignore=SC1091
-ARG RUNTIME_BASE="ubuntu:22.04"
+ARG RUNTIME_BASE="ubuntu:24.04"
 ARG FOUNDRY_VERSION="latest"
 ARG USERNAME="dev"
 ARG BUILD_DATE
@@ -30,8 +30,7 @@ RUN apt-get update -y && \
         libssl-dev \
         ca-certificates \
         gnupg \
-        lsb-release \
-        software-properties-common && \
+        lsb-release && \
     rm -rf /var/lib/apt/lists/*
 
 # --------------------------
@@ -53,10 +52,9 @@ RUN curl -fsSL https://get.pnpm.io/install.sh | bash -s -- && \
     rustup default "${RUST_VERSION}"
 
 # --------------------------
-# 3. Python 3.12 + pipx + uv
+# 3. Python 3.12 (from Noble) + pipx + uv
 # --------------------------
-RUN add-apt-repository ppa:deadsnakes/ppa && \
-    apt-get update -y && \
+RUN apt-get update -y && \
     apt-get install -y --no-install-recommends python3.12 python3.12-venv && \
     curl -sS https://bootstrap.pypa.io/get-pip.py | python3.12 && \
     python3.12 -m pip install --no-cache-dir pipx==1.7.1 && \
