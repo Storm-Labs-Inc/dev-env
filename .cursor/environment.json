@@ -1,12 +1,22 @@
 {
-  "dockerfile": "dev-env/Dockerfile",
+  "dockerfile": "Dockerfile",
   "install": "pnpm install && uv pip sync requirements.txt || true",
   "terminals": [
-    { "name": "Anvil", "command": "docker run --rm -p 8545:8545 ghcr.io/foundry-rs/foundry anvil" },
-    { "name": "Foundry Tests", "command": "docker run --rm -v ${PWD}:/app -w /app ghcr.io/foundry-rs/foundry forge test -vvv" },
+    {
+      "name": "Anvil",
+      "command": "docker run --rm -p 8545:8545 ghcr.io/foundry-rs/foundry anvil"
+    },
+    {
+      "name": "Foundry Tests",
+      "command": "docker run --rm -v ${PWD}:/app -w /app ghcr.io/foundry-rs/foundry forge test -vvv"
+    },
     {
       "name": "Foundry Tests --watch",
       "command": "forge test -w"
     }
-  ]
+  ],
+  "build": {
+    "context": ".",
+    "dockerfile": "Dockerfile"
+  }
 }
