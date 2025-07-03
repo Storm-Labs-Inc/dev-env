@@ -66,6 +66,7 @@ A GitHub Actions workflow (`.github/workflows/publish-image.yml`) automatically 
 * **`dev-env/Dockerfile`** – Multi-stage build producing a stripped-down runtime image.
 * **`.cursor/environment.json`** – Instructions for Cursor-based dev-containers.
 * **`justfile`** – Helper scripts for building, linting, and future automation.
+* **`.github/workflows/publish-image.yml`** – CI workflow that builds & publishes the multi-arch dev image to GHCR on every `master` commit and semantic tag.
 * **`.github/workflows/update-docs.yml`** – Weekly cron that refreshes the offline documentation cache.
 
 ## 📚 Offline Documentation
@@ -80,3 +81,7 @@ The container now ships with an **offline mirror** of the following documentatio
 At runtime the mirror is mounted at `$DOCS_HOME` (`/usr/share/docs`). Open any `index.html` inside that directory to browse completely offline—perfect for flights, air-gapped CI, or when the public sites go down.
 
 The mirror is refreshed weekly by the `update-docs.yml` workflow so it's always up-to-date without manual intervention.
+
+## 📝 License
+
+This project is licensed under the [MIT License](./LICENSE).
