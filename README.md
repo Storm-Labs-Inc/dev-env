@@ -67,6 +67,8 @@ A GitHub Actions workflow (`.github/workflows/publish-image.yml`) automatically 
 * **`.cursor/environment.json`** – Instructions for Cursor-based dev-containers.
 * **`justfile`** – Helper scripts for building, linting, and future automation.
 * **`.github/workflows/update-docs.yml`** – Weekly cron that refreshes the offline documentation cache.
+* **`.github/workflows/publish-image.yml`** – CI pipeline that builds, lints, and publishes the multi-arch image to GHCR.
+* **`LICENSE`** – MIT license governing this repository.
 
 ## 📚 Offline Documentation
 
@@ -80,3 +82,7 @@ The container now ships with an **offline mirror** of the following documentatio
 At runtime the mirror is mounted at `$DOCS_HOME` (`/usr/share/docs`). Open any `index.html` inside that directory to browse completely offline—perfect for flights, air-gapped CI, or when the public sites go down.
 
 The mirror is refreshed weekly by the `update-docs.yml` workflow so it's always up-to-date without manual intervention.
+
+## 📄 License
+
+This project is distributed under the [MIT License](./LICENSE).
