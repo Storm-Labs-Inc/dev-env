@@ -1,8 +1,29 @@
-# Ignore Git history and metadata
-.git
+# Node.js dependencies
+node_modules
+**/node_modules
 
-# GitHub workflows & CI configs not needed for build
-.github
+# Python virtual environments
+.venv
+venv
+
+# Rust build artifacts
+target
+
+# OS / editor junk
+.DS_Store
+.idea
+.vscode
+
+# Git
+.git
+.gitignore
+
+# Build outputs
+dist
+build
+
+# Local docs or artifacts not needed in image
+site
 
 # Local documentation mirror (copied separately in runtime stage)
 # docs
@@ -13,12 +34,5 @@ docs-cache
 # Cursor config
 .cursor
 
-# Node, Python, Rust build artifacts
-node_modules
-__pycache__
-*.py[cod]
-*.swp
-
 # Editor/OS artifacts
-.DS_Store
 *.log
