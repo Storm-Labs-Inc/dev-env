@@ -46,11 +46,35 @@ Opening this repository in **[Cursor](https://cursor.sh)** automatically starts 
    * **Anvil** – local Ethereum node (`anvil -p 8545`)
    * **Foundry Tests** – executes `forge test -vvv`
 
+## 🔧 Configuration & Build-time Arguments
+
+The `dev-env/Dockerfile` is designed to be **highly configurable at build time**. The most common tweaks can be achieved by supplying `--build-arg` flags—no patching of the Dockerfile required.
+
+| ARG | Default | Purpose |
+|-----|---------|---------|
+| `RUNTIME_BASE` | `ubuntu:24.04` | Base OS for the final runtime layer. Swap to `debian:bookworm-slim`, Alpine, etc. |
+| `FOUNDRY_VERSION` | `latest` | Upstream [`foundry-rs/foundry`](https://github.com/foundry-rs/foundry) image tag (e.g. `nightly`, `v1.0.0`). |
+| `NODE_VERSION` | `22.4.0` | Node.js version installed via `pnpm env use -g`. |
+| `RUST_VERSION` | `1.77.1` | Rust tool-chain version managed by `rustup`. |
+| `USERNAME` | `dev` | Non-root user created inside both build and runtime layers. |
+
+Example: build the image against the **nightly Foundry** release and a newer Node.js version:
+
+```bash
+docker build \
+  --build-arg FOUNDRY_VERSION=nightly \
+  --build-arg NODE_VERSION=22.6.0 \
+  -t ghcr.io/storm-labs/dev-env:nightly \
+  -f dev-env/Dockerfile .
+```
+
+The resulting image preserves all other defaults (Python 3.12, `uv`, offline docs, etc.) while pulling in your custom tooling versions.
+
 ## 🧰 just Recipes
 
 | Recipe | Description |
 |--------|-------------|
-| `just build` | Build the dev image and tag it as `:local` (both `ghcr.io/storm-labs/**` and `storm-labs/**`). |
+| `just build` | Build the dev image and tag it as \`:local\` (both \`ghcr.io/storm-labs/**\` and \`storm-labs/**\`). |
 | `just lint` | Lint the Dockerfile with [hadolint](https://github.com/hadolint/hadolint). |
 | `just dev-install` | Hook executed by Cursor to install extra dependencies (currently does nothing). |
 | `just` | List all available recipes. |
