@@ -7,6 +7,7 @@ ARG USERNAME="dev"
 ARG BUILD_DATE
 ARG VCS_REF
 FROM ghcr.io/foundry-rs/foundry:${FOUNDRY_VERSION} AS builder
+ARG USERNAME
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
@@ -55,6 +56,9 @@ RUN curl -fsSL https://get.pnpm.io/install.sh | bash -s -- && \
 # 3. Python 3.12 (from Noble) + pipx + uv
 # --------------------------
 RUN apt-get update -y && \
+    apt-get install -y --no-install-recommends software-properties-common && \
+    add-apt-repository ppa:deadsnakes/ppa -y && \
+    apt-get update -y && \
     apt-get install -y --no-install-recommends python3.12 python3.12-venv && \
     curl -sS https://bootstrap.pypa.io/get-pip.py | python3.12 && \
     python3.12 -m pip install --no-cache-dir pipx==1.7.1 && \
@@ -69,6 +73,7 @@ USER ${USERNAME}
 # Final minimal runtime image
 # ---------------------------------------------------------------------------
 FROM ${RUNTIME_BASE} AS runtime
+ARG USERNAME
 
 ARG BUILD_DATE
 ARG VCS_REF
