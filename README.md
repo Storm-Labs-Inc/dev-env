@@ -100,7 +100,7 @@ The container now ships with an **offline mirror** of the following documentatio
 1. [secure-contracts.com](https://secure-contracts.com)
 2. Solidity docs (v0.8.28)
 3. Foundry ‣ forge reference docs
-4. Storm's internal Cove docs
+4. [Cove docs](https://docs.cove.finance/)
 
 At runtime the mirror is mounted at `$DOCS_HOME` (`/usr/share/docs`). Open any `index.html` inside that directory to browse completely offline—perfect for flights, air-gapped CI, or when the public sites go down.
 
