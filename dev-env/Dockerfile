@@ -53,16 +53,15 @@ RUN curl -fsSL https://get.pnpm.io/install.sh | bash -s -- && \
     rustup default "${RUST_VERSION}"
 
 # --------------------------
-# 3. Python 3.12 (from Noble) + pipx + uv
+# 3. Python 3.13 + uv
 # --------------------------
 RUN apt-get update -y && \
     apt-get install -y --no-install-recommends software-properties-common && \
     add-apt-repository ppa:deadsnakes/ppa -y && \
     apt-get update -y && \
-    apt-get install -y --no-install-recommends python3.12 python3.12-venv && \
-    curl -sS https://bootstrap.pypa.io/get-pip.py | python3.12 && \
-    python3.12 -m pip install --no-cache-dir pipx==1.7.1 && \
-    pipx install uv==0.7.18 && \
+    apt-get install -y --no-install-recommends python3.13 && \
+    apt-get install -y libexpat1 && \
+    curl -LsSf https://astral.sh/uv/install.sh | sh && \
     rm -rf /var/lib/apt/lists/*
 
 # Switch to non-root user in builder stage for safer defaults
@@ -89,6 +88,14 @@ COPY --from=builder /usr/local /usr/local
 COPY --from=builder /root/.local /home/${USERNAME}/.local
 COPY --from=builder /root/.cargo /root/.cargo
 COPY --from=builder /root/.rustup /root/.rustup
+# Copy Python binary and libraries
+# TODO: Consider moving Python to the Runtime layer to avoid arch mismatch
+COPY --from=builder /usr/bin/python3.13 /usr/bin/python3.13
+COPY --from=builder /usr/lib/python3.13 /usr/lib/python3.13
+COPY --from=builder /usr/lib/python3.13/ /usr/lib/python3.13/
+COPY --from=builder /lib/aarch64-linux-gnu/libexpat.so.1 /lib/aarch64-linux-gnu/libexpat.so.1
+
+RUN ln -s /usr/bin/python3.13 /usr/bin/python3
 
 ENV PNPM_HOME="/home/${USERNAME}/.local/share/pnpm"
 ENV PATH="$PNPM_HOME:/home/${USERNAME}/.local/bin:/usr/local/bin:/root/.cargo/bin:${PATH}" \
