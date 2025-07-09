@@ -60,7 +60,6 @@ RUN apt-get update -y && \
     add-apt-repository ppa:deadsnakes/ppa -y && \
     apt-get update -y && \
     apt-get install -y --no-install-recommends python3.13 && \
-    apt-get install -y libexpat1 && \
     curl -LsSf https://astral.sh/uv/install.sh | sh && \
     rm -rf /var/lib/apt/lists/*
 
@@ -89,13 +88,11 @@ COPY --from=builder /root/.local /home/${USERNAME}/.local
 COPY --from=builder /root/.cargo /root/.cargo
 COPY --from=builder /root/.rustup /root/.rustup
 # Copy Python binary and libraries
-# TODO: Consider moving Python to the Runtime layer to avoid arch mismatch
 COPY --from=builder /usr/bin/python3.13 /usr/bin/python3.13
 COPY --from=builder /usr/lib/python3.13 /usr/lib/python3.13
-COPY --from=builder /usr/lib/python3.13/ /usr/lib/python3.13/
-COPY --from=builder /lib/aarch64-linux-gnu/libexpat.so.1 /lib/aarch64-linux-gnu/libexpat.so.1
 
 RUN ln -s /usr/bin/python3.13 /usr/bin/python3
+RUN ln -s /usr/bin/python3.13 /usr/bin/python
 
 ENV PNPM_HOME="/home/${USERNAME}/.local/share/pnpm"
 ENV PATH="$PNPM_HOME:/home/${USERNAME}/.local/bin:/usr/local/bin:/root/.cargo/bin:${PATH}" \
@@ -108,6 +105,7 @@ ENV DOCS_HOME="/usr/share/docs"
 
 RUN apt-get update -y && \
     apt-get install -y --no-install-recommends ca-certificates && \
+    apt-get install -y --no-install-recommends libexpat1 && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Create non-root user for safer defaults (configurable)
