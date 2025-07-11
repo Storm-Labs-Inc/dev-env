@@ -10,6 +10,8 @@ ARG BUILD_DATE
 ARG VCS_REF
 FROM ghcr.io/foundry-rs/foundry:${FOUNDRY_VERSION} AS builder
 ARG USERNAME
+ARG NODE_VERSION
+ARG RUST_VERSION
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
@@ -74,6 +76,7 @@ USER ${USERNAME}
 # ---------------------------------------------------------------------------
 FROM ${RUNTIME_BASE} AS runtime
 ARG USERNAME
+ARG NODE_VERSION
 
 ARG BUILD_DATE
 ARG VCS_REF
