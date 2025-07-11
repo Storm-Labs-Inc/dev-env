@@ -99,6 +99,9 @@ ENV PATH="$PNPM_HOME:/home/${USERNAME}/.local/bin:/usr/local/bin:/root/.cargo/bi
 COPY docs /usr/share/docs
 ENV DOCS_HOME="/usr/share/docs"
 
+# Copy MCP configuration files
+COPY dev-env/mcp.json /tmp/mcp.json
+
 # Install git and essential tools with verification
 RUN apt-get update -y && \
     apt-get install -y --no-install-recommends \
@@ -110,6 +113,13 @@ RUN apt-get update -y && \
 
 # Create non-root user for safer defaults (configurable)
 RUN useradd -m "${USERNAME}" && chown -R "${USERNAME}:${USERNAME}" /home/"${USERNAME}" /usr/share/docs
+
+# Set up MCP configuration for the user
+RUN mkdir -p /home/"${USERNAME}"/.cursor && \
+    cp /tmp/mcp.json /home/"${USERNAME}"/.cursor/mcp.json && \
+    chown -R "${USERNAME}:${USERNAME}" /home/"${USERNAME}"/.cursor && \
+    # Clean up temp files
+    rm -f /tmp/mcp.json
 
 USER ${USERNAME}
 WORKDIR /home/${USERNAME}
