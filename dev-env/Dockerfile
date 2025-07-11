@@ -101,7 +101,6 @@ ENV DOCS_HOME="/usr/share/docs"
 
 # Copy MCP configuration files
 COPY dev-env/mcp.json /tmp/mcp.json
-COPY dev-env/.env.mcp.template /tmp/.env.mcp.template
 
 # Install git and essential tools with verification
 RUN apt-get update -y && \
@@ -118,13 +117,9 @@ RUN useradd -m "${USERNAME}" && chown -R "${USERNAME}:${USERNAME}" /home/"${USER
 # Set up MCP configuration for the user
 RUN mkdir -p /home/"${USERNAME}"/.cursor && \
     cp /tmp/mcp.json /home/"${USERNAME}"/.cursor/mcp.json && \
-    cp /tmp/.env.mcp.template /home/"${USERNAME}"/.cursor/.env.mcp.template && \
-    # Create an empty .env.mcp file with proper permissions (user will fill it)
-    touch /home/"${USERNAME}"/.cursor/.env.mcp && \
-    chmod 600 /home/"${USERNAME}"/.cursor/.env.mcp && \
     chown -R "${USERNAME}:${USERNAME}" /home/"${USERNAME}"/.cursor && \
     # Clean up temp files
-    rm -f /tmp/mcp.json /tmp/.env.mcp.template
+    rm -f /tmp/mcp.json
 
 USER ${USERNAME}
 WORKDIR /home/${USERNAME}
