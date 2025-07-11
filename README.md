@@ -8,7 +8,7 @@ A self-contained Docker image that bundles the complete tool-chain required for 
 |-----------|---------|
 | Blockchain | Foundry (`forge`, `cast`, `anvil`) |
 | JavaScript | Node.js 22 (22.4.0), `pnpm` |
-| Python     | Python 3.12, [`pipx`](https://pypa.github.io/pipx), [`uv`](https://github.com/astral-sh/uv) |
+| Python     | Python 3.13, [`uv`](https://github.com/astral-sh/uv) |
 | Rust       | `rustup` + stable tool-chain |
 | Utilities  | `git`, `curl`, `build-essential`, many more |
 
@@ -26,7 +26,7 @@ docker pull ghcr.io/storm-labs/dev-env:latest
 just build
 
 # 2. Open an ephemeral shell inside the container
-docker run -it --rm ghcr.io/storm-labs/dev-env:local
+docker run -it --rm ghcr.io/storm-labs/dev-env:local bash
 ```
 
 Once inside you'll have access to the full tool-chain, e.g.
@@ -34,7 +34,8 @@ Once inside you'll have access to the full tool-chain, e.g.
 ```bash
 forge --version
 node -v
-python3.12 -m uv --version
+python3 --version
+uv --version
 ```
 
 ## 🐭 Quick-start (Cursor)
@@ -68,7 +69,7 @@ docker build \
   -f dev-env/Dockerfile .
 ```
 
-The resulting image preserves all other defaults (Python 3.12, `uv`, offline docs, etc.) while pulling in your custom tooling versions.
+The resulting image preserves all other defaults (Python 3.13, `uv`, offline docs, etc.) while pulling in your custom tooling versions.
 
 ## 🧰 just Recipes
 
