@@ -4,10 +4,14 @@
 ARG RUNTIME_BASE="ubuntu:24.04"
 ARG FOUNDRY_VERSION="latest"
 ARG USERNAME="dev"
+ARG NODE_VERSION="22.4.0"
+ARG RUST_VERSION="1.77.1"
 ARG BUILD_DATE
 ARG VCS_REF
 FROM ghcr.io/foundry-rs/foundry:${FOUNDRY_VERSION} AS builder
 ARG USERNAME
+ARG NODE_VERSION
+ARG RUST_VERSION
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
@@ -37,8 +41,6 @@ RUN apt-get update -y && \
 # --------------------------
 # 2. pnpm, Node.js, Rust (Foundry pre-installed in base image)
 # --------------------------
-ARG NODE_VERSION="22.4.0"
-ARG RUST_VERSION="1.77.1"
 
 ENV PNPM_HOME="/root/.local/share/pnpm" \
     CARGO_HOME="/root/.cargo"
@@ -72,6 +74,7 @@ USER ${USERNAME}
 # ---------------------------------------------------------------------------
 FROM ${RUNTIME_BASE} AS runtime
 ARG USERNAME
+ARG NODE_VERSION
 
 ARG BUILD_DATE
 ARG VCS_REF
@@ -94,6 +97,10 @@ COPY --from=builder /usr/lib/python3.13 /usr/lib/python3.13
 RUN ln -s /usr/bin/python3.13 /usr/bin/python3
 RUN ln -s /usr/bin/python3.13 /usr/bin/python
 
+# Fix node symlink to point to the correct location
+RUN rm -f /home/"${USERNAME}"/.local/share/pnpm/node && \
+    ln -s /home/"${USERNAME}"/.local/share/pnpm/nodejs/"${NODE_VERSION}"/bin/node /home/"${USERNAME}"/.local/share/pnpm/node
+
 ENV PNPM_HOME="/home/${USERNAME}/.local/share/pnpm"
 ENV PATH="$PNPM_HOME:/home/${USERNAME}/.local/bin:/usr/local/bin:/root/.cargo/bin:${PATH}" \
     HOME="/home/${USERNAME}" \
@@ -103,13 +110,29 @@ ENV PATH="$PNPM_HOME:/home/${USERNAME}/.local/bin:/usr/local/bin:/root/.cargo/bi
 COPY docs /usr/share/docs
 ENV DOCS_HOME="/usr/share/docs"
 
+# Copy MCP configuration files
+COPY dev-env/mcp.json /tmp/mcp.json
+
+# Install git and essential tools with verification
 RUN apt-get update -y && \
-    apt-get install -y --no-install-recommends ca-certificates && \
-    apt-get install -y --no-install-recommends libexpat1 && \
+    apt-get install -y --no-install-recommends \
+        ca-certificates \
+        git \
+        libexpat1 && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Create non-root user for safer defaults (configurable)
 RUN useradd -m "${USERNAME}" && chown -R "${USERNAME}:${USERNAME}" /home/"${USERNAME}" /usr/share/docs
+
+# Set bash as the default shell for the user
+RUN chsh -s /bin/bash "${USERNAME}"
+
+# Set up MCP configuration for the user
+RUN mkdir -p /home/"${USERNAME}"/.cursor && \
+    cp /tmp/mcp.json /home/"${USERNAME}"/.cursor/mcp.json && \
+    chown -R "${USERNAME}:${USERNAME}" /home/"${USERNAME}"/.cursor && \
+    # Clean up temp files
+    rm -f /tmp/mcp.json
 
 USER ${USERNAME}
 WORKDIR /home/${USERNAME}
