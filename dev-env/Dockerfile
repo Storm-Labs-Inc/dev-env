@@ -118,13 +118,13 @@ RUN useradd -m "${USERNAME}" && chown -R "${USERNAME}:${USERNAME}" /home/"${USER
 RUN chsh -s /bin/bash "${USERNAME}"
 
 # Set up shell initialization files for persistent PATH
-RUN echo 'export PNPM_HOME="/home/'${USERNAME}'/.local/share/pnpm"' >> /home/"${USERNAME}"/.bashrc && \
-    echo 'export PATH="$PNPM_HOME:/home/'${USERNAME}'/.local/bin:/usr/local/bin:/root/.cargo/bin:$PATH"' >> /home/"${USERNAME}"/.bashrc && \
-    echo 'export DOCS_HOME="/usr/share/docs"' >> /home/"${USERNAME}"/.bashrc && \
+RUN echo "export PNPM_HOME=\"/home/${USERNAME}/.local/share/pnpm\"" >> /home/"${USERNAME}"/.bashrc && \
+    echo "export PATH=\"\$PNPM_HOME:/home/${USERNAME}/.local/bin:/usr/local/bin:/root/.cargo/bin:\$PATH\"" >> /home/"${USERNAME}"/.bashrc && \
+    echo "export DOCS_HOME=\"/usr/share/docs\"" >> /home/"${USERNAME}"/.bashrc && \
     # Also add to .profile for non-interactive shells
-    echo 'export PNPM_HOME="/home/'${USERNAME}'/.local/share/pnpm"' >> /home/"${USERNAME}"/.profile && \
-    echo 'export PATH="$PNPM_HOME:/home/'${USERNAME}'/.local/bin:/usr/local/bin:/root/.cargo/bin:$PATH"' >> /home/"${USERNAME}"/.profile && \
-    echo 'export DOCS_HOME="/usr/share/docs"' >> /home/"${USERNAME}"/.profile && \
+    echo "export PNPM_HOME=\"/home/${USERNAME}/.local/share/pnpm\"" >> /home/"${USERNAME}"/.profile && \
+    echo "export PATH=\"\$PNPM_HOME:/home/${USERNAME}/.local/bin:/usr/local/bin:/root/.cargo/bin:\$PATH\"" >> /home/"${USERNAME}"/.profile && \
+    echo "export DOCS_HOME=\"/usr/share/docs\"" >> /home/"${USERNAME}"/.profile && \
     chown "${USERNAME}:${USERNAME}" /home/"${USERNAME}"/.bashrc /home/"${USERNAME}"/.profile
 
 # Fix node symlink to point to the correct location
