@@ -1,0 +1,17 @@
+{
+  "mcpServers": {
+    "notionApi": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "envmcp",
+        "npx",
+        "-y",
+        "@notionhq/notion-mcp-server"
+      ],
+      "env": {
+        "OPENAPI_MCP_HEADERS": "$NOTION_MCP_HEADERS"
+      }
+    }
+  }
+}

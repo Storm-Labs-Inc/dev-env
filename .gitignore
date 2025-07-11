@@ -1,6 +1,7 @@
 # General
 .DS_Store
 .env
+.env.mcp
 *.log
 *.sqlite
 
@@ -22,4 +23,8 @@ __pycache__/
 # Editor directories and files
 .idea/
 .vscode/
-.cursor/local- 
+.cursor/local-
+
+# MCP Configuration (security)
+**/.env.mcp
+!.env.mcp.template 
