@@ -99,9 +99,14 @@ ENV PATH="$PNPM_HOME:/home/${USERNAME}/.local/bin:/usr/local/bin:/root/.cargo/bi
 COPY docs /usr/share/docs
 ENV DOCS_HOME="/usr/share/docs"
 
+# Install git and essential tools with verification
 RUN apt-get update -y && \
-    apt-get install -y --no-install-recommends ca-certificates && \
-    apt-get clean && rm -rf /var/lib/apt/lists/*
+    apt-get install -y --no-install-recommends \
+        ca-certificates \
+        git && \
+    apt-get clean && rm -rf /var/lib/apt/lists/* && \
+    # Verify git is installed and executable
+    which git && git --version
 
 # Create non-root user for safer defaults (configurable)
 RUN useradd -m "${USERNAME}" && chown -R "${USERNAME}:${USERNAME}" /home/"${USERNAME}" /usr/share/docs
