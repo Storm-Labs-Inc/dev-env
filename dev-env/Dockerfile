@@ -94,11 +94,10 @@ COPY --from=builder /root/.rustup /root/.rustup
 COPY --from=builder /usr/bin/python3.13 /usr/bin/python3.13
 COPY --from=builder /usr/lib/python3.13 /usr/lib/python3.13
 
-RUN ln -s /usr/bin/python3.13 /usr/bin/python3
-RUN ln -s /usr/bin/python3.13 /usr/bin/python
-
-# Fix node symlink to point to the correct location
-RUN rm -f /home/"${USERNAME}"/.local/share/pnpm/node && \
+# Symlink Python to python3 and python, fix node symlink to point to the correct location
+RUN ln -s /usr/bin/python3.13 /usr/bin/python3 && \
+    ln -s /usr/bin/python3.13 /usr/bin/python && \
+    rm -f /home/"${USERNAME}"/.local/share/pnpm/node && \
     ln -s /home/"${USERNAME}"/.local/share/pnpm/nodejs/"${NODE_VERSION}"/bin/node /home/"${USERNAME}"/.local/share/pnpm/node
 
 ENV PNPM_HOME="/home/${USERNAME}/.local/share/pnpm"
