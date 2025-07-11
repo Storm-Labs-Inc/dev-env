@@ -114,6 +114,30 @@ RUN apt-get update -y && \
 # Create non-root user for safer defaults (configurable)
 RUN useradd -m "${USERNAME}" && chown -R "${USERNAME}:${USERNAME}" /home/"${USERNAME}" /usr/share/docs
 
+# Set bash as the default shell for the user
+RUN chsh -s /bin/bash "${USERNAME}"
+
+# Set up shell initialization files for persistent PATH
+RUN echo 'export PNPM_HOME="/home/'${USERNAME}'/.local/share/pnpm"' >> /home/"${USERNAME}"/.bashrc && \
+    echo 'export PATH="$PNPM_HOME:/home/'${USERNAME}'/.local/bin:/usr/local/bin:/root/.cargo/bin:$PATH"' >> /home/"${USERNAME}"/.bashrc && \
+    echo 'export DOCS_HOME="/usr/share/docs"' >> /home/"${USERNAME}"/.bashrc && \
+    # Also add to .profile for non-interactive shells
+    echo 'export PNPM_HOME="/home/'${USERNAME}'/.local/share/pnpm"' >> /home/"${USERNAME}"/.profile && \
+    echo 'export PATH="$PNPM_HOME:/home/'${USERNAME}'/.local/bin:/usr/local/bin:/root/.cargo/bin:$PATH"' >> /home/"${USERNAME}"/.profile && \
+    echo 'export DOCS_HOME="/usr/share/docs"' >> /home/"${USERNAME}"/.profile && \
+    chown "${USERNAME}:${USERNAME}" /home/"${USERNAME}"/.bashrc /home/"${USERNAME}"/.profile
+
+# Fix node symlink to point to the correct location
+RUN rm -f /home/"${USERNAME}"/.local/share/pnpm/node && \
+    ln -s /home/"${USERNAME}"/.local/share/pnpm/nodejs/22.4.0/bin/node /home/"${USERNAME}"/.local/share/pnpm/node
+
+# Create .bash_profile to source .bashrc for login shells
+RUN echo '# Source .bashrc if it exists' > /home/"${USERNAME}"/.bash_profile && \
+    echo 'if [ -f ~/.bashrc ]; then' >> /home/"${USERNAME}"/.bash_profile && \
+    echo '    . ~/.bashrc' >> /home/"${USERNAME}"/.bash_profile && \
+    echo 'fi' >> /home/"${USERNAME}"/.bash_profile && \
+    chown "${USERNAME}:${USERNAME}" /home/"${USERNAME}"/.bash_profile
+
 # Set up MCP configuration for the user
 RUN mkdir -p /home/"${USERNAME}"/.cursor && \
     cp /tmp/mcp.json /home/"${USERNAME}"/.cursor/mcp.json && \
