@@ -98,7 +98,9 @@ COPY --from=builder /usr/lib/python3.13 /usr/lib/python3.13
 RUN ln -s /usr/bin/python3.13 /usr/bin/python3 && \
     ln -s /usr/bin/python3.13 /usr/bin/python && \
     rm -f /home/"${USERNAME}"/.local/share/pnpm/node && \
-    ln -s /home/"${USERNAME}"/.local/share/pnpm/nodejs/"${NODE_VERSION}"/bin/node /home/"${USERNAME}"/.local/share/pnpm/node
+    ln -s /home/"${USERNAME}"/.local/share/pnpm/nodejs/"${NODE_VERSION}"/bin/node /home/"${USERNAME}"/.local/share/pnpm/node \
+    # Fix ownership of cargo and rustup directories
+    chown -R "${USERNAME}:${USERNAME}" /home/"${USERNAME}"/.cargo /home/"${USERNAME}"/.rustup
 
 ENV PNPM_HOME="/home/${USERNAME}/.local/share/pnpm"
 ENV PATH="$PNPM_HOME:/home/${USERNAME}/.local/bin:/usr/local/bin:/home/${USERNAME}/.cargo/bin:${PATH}" \
@@ -122,9 +124,6 @@ RUN apt-get update -y && \
 
 # Create non-root user for safer defaults (configurable)
 RUN useradd -m "${USERNAME}" && chown -R "${USERNAME}:${USERNAME}" /home/"${USERNAME}" /usr/share/docs
-
-# Fix ownership of cargo and rustup directories
-RUN chown -R "${USERNAME}:${USERNAME}" /home/"${USERNAME}"/.cargo /home/"${USERNAME}"/.rustup
 
 # Set bash as the default shell for the user
 RUN chsh -s /bin/bash "${USERNAME}"
