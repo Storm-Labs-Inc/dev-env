@@ -88,8 +88,8 @@ LABEL org.opencontainers.image.revision=$VCS_REF
 
 COPY --from=builder /usr/local /usr/local
 COPY --from=builder /root/.local /home/${USERNAME}/.local
-COPY --from=builder /root/.cargo /root/.cargo
-COPY --from=builder /root/.rustup /root/.rustup
+COPY --from=builder /root/.cargo /home/${USERNAME}/.cargo
+COPY --from=builder /root/.rustup /home/${USERNAME}/.rustup
 # Copy Python binary and libraries
 COPY --from=builder /usr/bin/python3.13 /usr/bin/python3.13
 COPY --from=builder /usr/lib/python3.13 /usr/lib/python3.13
@@ -101,7 +101,7 @@ RUN ln -s /usr/bin/python3.13 /usr/bin/python3 && \
     ln -s /home/"${USERNAME}"/.local/share/pnpm/nodejs/"${NODE_VERSION}"/bin/node /home/"${USERNAME}"/.local/share/pnpm/node
 
 ENV PNPM_HOME="/home/${USERNAME}/.local/share/pnpm"
-ENV PATH="$PNPM_HOME:/home/${USERNAME}/.local/bin:/usr/local/bin:/root/.cargo/bin:${PATH}" \
+ENV PATH="$PNPM_HOME:/home/${USERNAME}/.local/bin:/usr/local/bin:/home/${USERNAME}/.cargo/bin:${PATH}" \
     HOME="/home/${USERNAME}" \
     DEBIAN_FRONTEND=noninteractive
 
@@ -121,10 +121,28 @@ RUN apt-get update -y && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Create non-root user for safer defaults (configurable)
-RUN useradd -m "${USERNAME}" && chown -R "${USERNAME}:${USERNAME}" /home/"${USERNAME}" /usr/share/docs
+RUN useradd -m "${USERNAME}" && \
+    chown -R "${USERNAME}:${USERNAME}" /home/"${USERNAME}" /usr/share/docs && \
+    chown -R "${USERNAME}:${USERNAME}" /home/"${USERNAME}"/.cargo /home/"${USERNAME}"/.rustup
 
 # Set bash as the default shell for the user
-RUN chsh -s /bin/bash "${USERNAME}"
+RUN chsh -s /bin/bash "${USERNAME}" && \
+    # Set up shell initialization files for persistent PATH
+    echo "export PNPM_HOME=\"/home/${USERNAME}/.local/share/pnpm\"" >> /home/"${USERNAME}"/.bashrc && \
+    echo "export DOCS_HOME=\"/usr/share/docs\"" >> /home/"${USERNAME}"/.bashrc && \
+    echo "export PATH=\"${PATH}:\$PATH\"" >> /home/"${USERNAME}"/.bashrc && \
+    # Also add to .profile for non-interactive shells
+    echo "export PNPM_HOME=\"/home/${USERNAME}/.local/share/pnpm\"" >> /home/"${USERNAME}"/.profile && \
+    echo "export DOCS_HOME=\"/usr/share/docs\"" >> /home/"${USERNAME}"/.profile && \
+    echo "export PATH=\"${PATH}:\$PATH\"" >> /home/"${USERNAME}"/.profile && \
+    chown "${USERNAME}:${USERNAME}" /home/"${USERNAME}"/.bashrc /home/"${USERNAME}"/.profile
+
+# Create .bash_profile to source .bashrc for login shells
+RUN echo '# Source .bashrc if it exists' > /home/"${USERNAME}"/.bash_profile && \
+    echo 'if [ -f ~/.bashrc ]; then' >> /home/"${USERNAME}"/.bash_profile && \
+    echo '    . ~/.bashrc' >> /home/"${USERNAME}"/.bash_profile && \
+    echo 'fi' >> /home/"${USERNAME}"/.bash_profile && \
+    chown "${USERNAME}:${USERNAME}" /home/"${USERNAME}"/.bash_profile
 
 # Set up MCP configuration for the user
 RUN mkdir -p /home/"${USERNAME}"/.cursor && \
@@ -139,4 +157,4 @@ WORKDIR /home/${USERNAME}
 # Basic healthcheck (can be overridden)
 HEALTHCHECK --interval=30s --timeout=5s --start-period=5s CMD echo "ok"
 
-ENTRYPOINT ["bash", "-lc"]
+ENTRYPOINT ["bash", "-c"]
