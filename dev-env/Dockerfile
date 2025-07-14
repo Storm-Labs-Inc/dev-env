@@ -98,7 +98,7 @@ COPY --from=builder /usr/lib/python3.13 /usr/lib/python3.13
 RUN ln -s /usr/bin/python3.13 /usr/bin/python3 && \
     ln -s /usr/bin/python3.13 /usr/bin/python && \
     rm -f /home/"${USERNAME}"/.local/share/pnpm/node && \
-    ln -s /home/"${USERNAME}"/.local/share/pnpm/nodejs/"${NODE_VERSION}"/bin/node /home/"${USERNAME}"/.local/share/pnpm/node \
+    ln -s /home/"${USERNAME}"/.local/share/pnpm/nodejs/"${NODE_VERSION}"/bin/node /home/"${USERNAME}"/.local/share/pnpm/node && \
     # Fix ownership of cargo and rustup directories
     chown -R "${USERNAME}:${USERNAME}" /home/"${USERNAME}"/.cargo /home/"${USERNAME}"/.rustup
 
